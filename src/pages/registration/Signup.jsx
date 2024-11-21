@@ -4,9 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import myContext from "../../context/myContext";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { auth, fireDB } from "../../firebase/FirebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import toast from "react-hot-toast";
 import Loader from "../../components/loader/Loader";
+
 
 const Signup = () => {
     const context = useContext(myContext);
@@ -27,7 +28,15 @@ const Signup = () => {
      *                          User Signup Function 
     *========================================================================**/
 
-    const userSignupFunction = async () => {
+    const userSignupFunction = async (email, password) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            await sendEmailVerification(userCredential.user);
+            toast.success("Verification email sent. Please check your inbox.");
+        } catch (error) {
+            console.error("Error during sign-up:", error);
+            toast.error("Sign-up failed. Please try again.");
+        }
         // validation 
         if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "") {
             toast.error("All Fields are required")
