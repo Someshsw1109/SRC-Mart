@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import myContext from "../../context/myContext";
@@ -15,7 +14,7 @@ const Login = () => {
     // navigate 
     const navigate = useNavigate();
 
-    // User Signup State 
+    // User Login State 
     const [userLogin, setUserLogin] = useState({
         email: "",
         password: ""
@@ -26,49 +25,74 @@ const Login = () => {
     *========================================================================**/
 
     const userLoginFunction = async () => {
-        // validation 
-        if (userLogin.email === "" || userLogin.password === "") {
-            toast.error("All Fields are required")
+        // Basic email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(userLogin.email)) {
+            toast.error("Please enter a valid email address");
+            return;
+        }
+
+        // Password length check
+        if (userLogin.password.length < 6) {
+            toast.error("Password must be at least 6 characters long");
+            return;
         }
 
         setLoading(true);
         try {
             const users = await signInWithEmailAndPassword(auth, userLogin.email, userLogin.password);
-            // console.log(users.user)
+
+            //if (!users.user.emailVerified) {
+            //    setLoading(false);
+            //    toast.error("Please verify your email before logging in.");
+            //    return;
+            //}
 
             try {
                 const q = query(
                     collection(fireDB, "user"),
                     where('uid', '==', users?.user?.uid)
                 );
-                const data = onSnapshot(q, (QuerySnapshot) => {
+                const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+                    if (QuerySnapshot.empty) {
+                        setLoading(false);
+                        toast.error("User data not found");
+                        return;
+                    }
                     let user;
                     QuerySnapshot.forEach((doc) => user = doc.data());
-                    localStorage.setItem("users", JSON.stringify(user) )
+                    localStorage.setItem("users", JSON.stringify(user));
                     setUserLogin({
                         email: "",
                         password: ""
-                    })
-                    toast.success("Login Successfully");
+                    });
+                    toast.success("Login Successful");
                     setLoading(false);
                     if(user.role === "user") {
                         navigate('/user-dashboard');
-                    }else{
+                    } else {
                         navigate('/admin-dashboard');
                     }
+                }, (error) => {
+                    console.error("Error fetching user data:", error);
+                    setLoading(false);
+                    toast.error("Error fetching user data");
                 });
-                return () => data;
+                
+                // Clean up the listener when the component unmounts
+                return () => unsubscribe();
             } catch (error) {
-                console.log(error);
+                console.error("Error setting up user data listener:", error);
                 setLoading(false);
+                toast.error("Error setting up user data listener");
             }
         } catch (error) {
-            console.log(error);
+            console.error("Login error:", error.code, error.message);
             setLoading(false);
-            toast.error("Login Failed");
+            toast.error(`Login Failed: ${error.message}`);
         }
-
     }
+
     return (
         <div className='flex justify-center items-center h-screen'>
             {loading && <Loader />}
@@ -115,7 +139,7 @@ const Login = () => {
                     />
                 </div>
 
-                {/* Signup Button  */}
+                {/* Login Button  */}
                 <div className="mb-5">
                     <button
                         type='button'
