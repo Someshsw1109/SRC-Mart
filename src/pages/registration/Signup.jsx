@@ -35,7 +35,7 @@ const Signup = () => {
             toast.success("Verification email sent. Please check your inbox.");
         } catch (error) {
             console.error("Error during sign-up:", error);
-            toast.error("Sign Up Failed.");
+            toast.error("Sign-up failed. Please try again.");
         }
         // validation 
         if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "") {
