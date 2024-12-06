@@ -28,7 +28,7 @@ const SearchBar = () => {
 
             {/* search drop-down  */}
             <div className=" flex justify-center">
-                {search && <div className="block absolute bg-purple-200 w-96 md:w-96 lg:w-96 z-50 my-1 rounded-lg px-2 py-2">
+                {search && <div className="block absolute bg-white-200 w-96 md:w-96 lg:w-96 z-50 my-1 rounded-lg px-2 py-2">
                     {filterSearchData.length > 0 ?
                         <>
                             {filterSearchData.map((item, index) => {
