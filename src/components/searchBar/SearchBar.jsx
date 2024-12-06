@@ -22,7 +22,7 @@ const SearchBar = () => {
                     type="text"
                     placeholder='Search here'
                     onChange={(e) => setSearch(e.target.value)}
-                    className=' bg-purple-200 placeholder-gray-400 rounded-lg px-2 py-2 w-96 lg:w-96 md:w-96 outline-none text-gold-300 '
+                    className=' bg-white-200 placeholder-gray-400 rounded-lg px-2 py-2 w-96 lg:w-96 md:w-96 outline-none text-black-300 '
                 />
             </div>
 
