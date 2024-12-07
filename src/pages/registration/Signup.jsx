@@ -11,7 +11,7 @@ import Loader from "../../components/loader/Loader";
 
 const Signup = () => {
     const context = useContext(myContext);
-    const {loading, setLoading } = context;
+    const { loading, setLoading } = context;
 
     // navigate 
     const navigate = useNavigate();
@@ -25,69 +25,62 @@ const Signup = () => {
     });
 
     /**========================================================================
-     *                          User Signup Function 
-    *========================================================================**/
-
-    const userSignupFunction = async (email, password) => {
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            await sendEmailVerification(userCredential.user);
-            toast.success("Verification email sent. Please check your inbox.");
-        } catch (error) {
-            console.error("Error during sign-up:", error);
-            toast.error("Sign-up failed. Please try again.");
-        }
-        // validation 
+ *                          User Signup Function
+ *========================================================================**/
+    const userSignupFunction = async () => {
+        // Validation
         if (userSignup.name === "" || userSignup.email === "" || userSignup.password === "") {
-            toast.error("All Fields are required")
+            toast.error("All fields are required");
+            return;
         }
 
         setLoading(true);
-        try {
-            const users = await createUserWithEmailAndPassword(auth, userSignup.email, userSignup.password);
 
-            // create user object
+        try {
+            // Create user with email and password
+            const userCredential = await createUserWithEmailAndPassword(auth, userSignup.email, userSignup.password);
+
+            // Send email verification
+            await sendEmailVerification(userCredential.user);
+            toast.success("Verification email sent. Please check your inbox.");
+
+            // Create user object for Fire store
             const user = {
                 name: userSignup.name,
-                email: users.user.email,
-                uid: users.user.uid,
+                email: userCredential.user.email,
+                uid: userCredential.user.uid,
                 role: userSignup.role,
                 time: Timestamp.now(),
-                date: new Date().toLocaleString(
-                    "en-US",
-                    {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                    }
-                )
-            }
+                date: new Date().toLocaleString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                    year: "numeric",
+                }),
+            };
 
-            // create user Refrence
-            const userRefrence = collection(fireDB, "user")
+            // Add user to Fire store
+            const userReference = collection(fireDB, "user");
+            await addDoc(userReference, user);
 
-            // Add User Detail
-            addDoc(userRefrence, user);
-
+            // Reset form
             setUserSignup({
                 name: "",
                 email: "",
-                password: ""
-            })
+                password: "",
+            });
 
             toast.success("Signup Successfully");
-
-            setLoading(false);
-            navigate('/login')
+            navigate("/login");
         } catch (error) {
-            console.log(error);
+            console.error("Error during sign-up:", error);
+            toast.error("Sign-up failed. Please try again.");
+        } finally {
             setLoading(false);
         }
-
-    }
+    };
     return (
         <div className='flex justify-center items-center h-screen'>
-            {loading && <Loader/>}
+            {loading && <Loader />}
             {/* Login Form  */}
             <div className="login_Form bg-pink-50 px-8 py-6 border border-pink-100 rounded-xl shadow-md">
 
