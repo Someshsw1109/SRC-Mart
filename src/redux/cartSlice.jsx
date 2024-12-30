@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = JSON.parse(localStorage.getItem('cart')) ?? [];
-console.log(initialState)
+// console.log(initialState)
 
 
 export const cartSlice = createSlice({
@@ -23,6 +23,7 @@ export const cartSlice = createSlice({
             });
         },
         decrementQuantity: (state, action) => {
+            console.log(state ,"decrement from the cartslice");
             state = state.map(item => {
                 if (item.quantity !== 1) {
                     if (item.id === action.payload) {
