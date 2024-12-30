@@ -13,5 +13,6 @@ const orderSchema = new mongoose.Schema({
     email: { type: String }
 });
 
+
 const Order = mongoose.model('Order', orderSchema);
 export default Order;

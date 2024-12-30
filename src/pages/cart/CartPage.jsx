@@ -12,16 +12,18 @@ import { Timestamp, addDoc, collection } from "firebase/firestore";
 import { fireDB } from "../../firebase/FirebaseConfig";
 import BuyNowModal from "../../components/buyNowModal/BuyNowModal";
 import { Navigate } from "react-router";
+import { initializePayment } from "../../utils/payment";
+
 
 
 const CartPage = () => {
   const cartItems = useSelector((state) => state.cart);
 
-  for (let i = 0; i < cartItems.length; i++) {
-    console.log(`Item ${i + 1}:`, cartItems[i]);
-  }
+  // for (let i = 0; i < cartItems.length; i++) {
+  //   console.log(`Item ${i + 1}:`, cartItems[i]);
+  // }
   const dispatch = useDispatch();
-  console.log(cartItems, "cartitems");
+  // console.log(cartItems, "cartitems");
 
   const deleteCart = (item) => {
     dispatch(deleteFromCart(item));
@@ -105,58 +107,14 @@ const CartPage = () => {
   };
 
   const handlePayNow = async () => {
-    console.log("handle pay now gets called");
-    if (!cartTotal) return;
-    try {
-      const response = await fetch("http://localhost:5000/create-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          amount: cartTotal,
-          currency: "INR",
-          receipt: "receipt#1",
-        }),
-      });
-
-      const { order } = await response.json();
-
-      const options = {
-        key: process.env.RAZORPAY_KEY_ID,
-        amount: order.amount,
-        currency: order.currency,
-        name: "SRC  MART",
-        image: "",
-        order_id: order.order_id,
-        handler: async (response) => {
-          const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-            response;
-          console.log(response);
-          await fetch("http://localhost:5000/verify-payment", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              razorpay_order_id,
-              razorpay_payment_id,
-              razorpay_signature,
-            }),
-          });
-
-          toast.success("payment succesfull");
-        },
-        theme: {
-          color: "#F37254",
-        },
-      };
-
-      const rzp1 = new window.Razorpay(options);
-      rzp1.open();
-    } catch (error) {
-      console.error(error);
+    console.log(cartTotal , "from handle paynow")
+    if (!cartTotal) {
+      alert("Please choose a room.");
+      return;
     }
+
+    await initializePayment(cartTotal);
+    console.log("handle pay now gets called");
   };
 
   return (
@@ -305,7 +263,6 @@ const CartPage = () => {
                           addressInfo={addressInfo}
                           setAddressInfo={setAddressInfo}
                           buyNowFunction={buyNowFunction}
-                          handlePayNow={handlePayNow}
                         />
                         <button
                           onClick={() => handlePayNow()}
