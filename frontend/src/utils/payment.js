@@ -1,5 +1,6 @@
 export const initializePayment = async (totalAmount) => {
-  console.log("payment js initiaize payment get called");  
+  console.log("payment js initiaize payment get called"); 
+   
   try {
       const response = await fetch("http://localhost:5000/create-order", {
         method: "POST",
@@ -87,7 +88,9 @@ export const initializePayment = async (totalAmount) => {
           }
         },
       };
+      console.log(options);
       const rzp = new window.Razorpay(options);
+      console.log(rzp);
       rzp.open();
     } catch (error) {
       console.error("Error initializing payment:", error);

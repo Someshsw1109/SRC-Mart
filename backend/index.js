@@ -27,6 +27,7 @@ var razorpay = new Razorpay({
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 
 });
+console.log(razorpay,"razorpay from server.js")
 
 app.post("/create-order", async (req, res) => {
     try {
@@ -87,10 +88,8 @@ app.post("/verify-payment", async (req, res) => {
         })
     }
 });
-app.get("/payment-success", (req, res) => {
-    console.log("payment succes get called");
-    res.sendFile(path.join(__dirname, "payment.html"));
-});
+
+
 app.get("/fetch-payment-details", async (req, res) => {
     const { order_id } = req.query;
     if (!order_id) {
@@ -115,6 +114,14 @@ app.get("/fetch-payment-details", async (req, res) => {
         console.error(error);
         res.status(500).json({ error: "Error fetching payment details" });
     }
+});
+
+// app.get("/payment-success", (req, res) => {
+//     res.sendFile(path.join(__dirname, "payment.html"));
+// });
+
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 
 const port = 5000
