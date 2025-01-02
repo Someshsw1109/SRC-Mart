@@ -13,8 +13,12 @@
     "@material-tailwind/react": "^2.1.10",
     "@reduxjs/toolkit": "^2.3.0",
     "antd": "^5.22.1",
+    "bcrypt": "^5.1.1",
+    "express": "^4.21.2",
     "firebase": "^11.0.2",
     "lucide-react": "^0.460.0",
+    "mongoose": "^8.9.2",
+    "razorpay": "^2.9.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
@@ -37,5 +41,9 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.15",
     "vite": "^5.4.10"
-  }
+  },
+  "description": "A modern eCommerce website, built with React and Node.js featuring user authentication, dynamic product listings, detailed product pages, a shopping cart, and a streamlined checkout process. The admin panel allows management of products, categories, users, and orders. Fully responsive, it uses Express.js, MongoDB, and JWT for secure authentication.",
+  "main": "postcss.config.js",
+  "author": "",
+  "license": "ISC"
 }
