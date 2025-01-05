@@ -74,6 +74,22 @@ const Navbar = () => {
                 <div className="right flex justify-center mb-4 lg:mb-0">
                     {navList}
                 </div>
+                {/* Vishal Thombare */}
+                <div className="flex justify-center lg:justify-end lg:flex-none">
+          <button
+            style={{
+              backgroundColor: 'rgba(237, 12, 68, 0.1)', 
+              color: 'white',
+              border: '1px solid white',
+              padding: '5px 30px',
+              fontSize: '16px',
+              cursor: 'pointer',
+              borderRadius: '50px', 
+            }}
+          >
+            Admin Login
+          </button>
+        </div>
 
                 {/* Search Bar  */}
                 <SearchBar />
