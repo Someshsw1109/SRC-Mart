@@ -23,41 +23,49 @@ const UserDashboard = () => {
                         <div className="flex justify-center">
                             <img src="https://cdn-icons-png.flaticon.com/128/2202/2202112.png" alt="" />
                         </div>
-                        {/* text  */}
-                        <div className="">
-                            {/* Name  */}
-                            <h1 className=" text-center text-lg">
-                                <span className=" font-bold">Name : </span>
-                                {user?.name}
-                            </h1>
+                        {/* text */}
+                        <div className="flex flex-wrap justify-center text-center lg:text-left">
+                            {/* Name */}
+                            <div className="w-full md:w-1/2 lg:w-1/4 p-2">
+                                <h1 className="text-lg">
+                                    <span className="font-bold">Name: </span>
+                                    {user?.name}
+                                </h1>
+                            </div>
 
-                            {/* Email  */}
-                            <h1 className=" text-center text-lg">
-                                <span className=" font-bold">Email : </span>
-                                {user?.email}
-                            </h1>
+                            {/* Email */}
+                            <div className="w-full md:w-1/2 lg:w-1/4 p-2">
+                                <h1 className="text-lg">
+                                    <span className="font-bold">Email: </span>
+                                    {user?.email}
+                                </h1>
+                            </div>
 
-                            {/* Date  */}
-                            <h1 className=" text-center text-lg">
-                                <span className=" font-bold">Date : </span>
-                                {user?.date}
-                            </h1>
+                            {/* Date */}
+                            <div className="w-full md:w-1/2 lg:w-1/4 p-2">
+                                <h1 className="text-lg">
+                                    <span className="font-bold">Date: </span>
+                                    {user?.date}
+                                </h1>
+                            </div>
 
-                            {/* Role  */}
-                            <h1 className=" text-center text-lg">
-                                <span className=" font-bold">Role : </span>
-                                {user?.role}
-                            </h1>
+                            {/* Role */}
+                            <div className="w-full md:w-1/2 lg:w-1/4 p-2">
+                                <h1 className="text-lg">
+                                    <span className="font-bold">Role: </span>
+                                    {user?.role}
+                                </h1>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                {/* bottom  */}
-                <div className="bottom">
+                {/* bottom */}
+                <div className="bottom mt-6">
                     {/* main 1 */}
                     <div className="mx-auto my-4 max-w-6xl px-2 md:my-6 md:px-0">
-                        {/* text  */}
-                        <h2 className=" text-2xl lg:text-3xl font-bold">Order Details</h2>
+                        {/* text */}
+                        <h2 className="text-2xl lg:text-3xl font-bold text-center lg:text-left">My Orders</h2>
 
                         <div className="flex justify-center relative top-10">
                         {loading && <Loader/>}

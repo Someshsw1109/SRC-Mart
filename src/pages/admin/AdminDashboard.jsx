@@ -48,9 +48,9 @@ const AdminDashboard = () => {
                                 {user?.date}
                             </h1>
 
-                            {/* Role  */}
-                            <h1 className=" text-center text-lg">
-                                <span className=" font-bold">Role : </span>
+                            {/* Role */}
+                            <h1 className="text-center text-lg">
+                                <span className="font-bold">Role: </span>
                                 {user?.role}
                             </h1>
                         </div>
@@ -58,13 +58,13 @@ const AdminDashboard = () => {
                 </div>
 
                 {/* Bottom */}
-                <div className="">
+                <div className="mt-6">
                     <Tabs>
-                        <TabList className="flex flex-wrap -m-4 text-center justify-center">
+                        <TabList className="flex flex-col sm:flex-row sm:flex-wrap -m-4 text-center justify-center">
                             {/* Total Products */}
                             <Tab className="p-4 md:w-1/3 sm:w-1/2 w-full cursor-pointer">
-                                <div className=" border bg-pink-50 hover:bg-pink-100 border-pink-100 px-4 py-3 rounded-xl" >
-                                    <div className="text-pink-500 w-12 h-12 mb-3 inline-block" >
+                                <div className="border bg-pink-50 hover:bg-pink-100 border-pink-100 px-4 py-3 rounded-xl">
+                                    <div className="text-pink-500 w-12 h-12 mb-3 inline-block">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             width={50}

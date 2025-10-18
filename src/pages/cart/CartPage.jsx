@@ -150,12 +150,12 @@ const CartPage = () => {
                       title,
                       price,
                       productImageUrl,
-                      quantity=1,
+                      quantity = 1,
                       category,
                     } = item;
                     return (
-                      <div key={index} className="">
-                        <li className="flex py-6 sm:py-6 ">
+                      <div key={index} className="py-6 sm:py-6">
+                        <li className="flex">
                           <div className="flex-shrink-0">
                             <img
                               src={productImageUrl}
@@ -185,109 +185,114 @@ const CartPage = () => {
                                 </div>
                               </div>
                             </div>
+                            <div className="mt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                              <div className="flex items-center">
+                                <button
+                                  onClick={() => handleDecrement(id)}
+                                  type="button"
+                                  className="h-7 w-7 border"
+                                >
+                                  -
+                                </button>
+                                <input
+                                  type="text"
+                                  className="mx-1 h-7 w-9 rounded-md border text-center"
+                                  value={quantity}
+                                  readOnly
+                                />
+                                <button
+                                  onClick={() => handleIncrement(id)}
+                                  type="button"
+                                  className="flex h-7 w-7 items-center justify-center border"
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <div className="mt-2 sm:mt-0 sm:ml-6 flex text-sm">
+                                <button
+                                  onClick={() => deleteCart(item)}
+                                  type="button"
+                                  className="flex items-center space-x-1 px-2 py-1 pl-0"
+                                >
+                                  <Trash size={12} className="text-red-500" />
+                                  <span className="text-xs font-medium text-red-500">
+                                    Remove
+                                  </span>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         </li>
-                        <div className="mb-2 flex">
-                          <div className="min-w-24 flex">
-                            <button
-                              onClick={() => handleDecrement(id)}
-                              type="button"
-                              className="h-7 w-7"
-                            >
-                              -
-                            </button>
-                            <input
-                              type="text"
-                              className="mx-1 h-7 w-9 rounded-md border text-center"
-                              value={quantity}
-                            />
-                            <button
-                              onClick={() => handleIncrement(id)}
-                              type="button"
-                              className="flex h-7 w-7 items-center justify-center"
-                            >
-                              +
-                            </button>
-                          </div>
-                          <div className="ml-6 flex text-sm">
-                            <button
-                              onClick={() => deleteCart(item)}
-                              type="button"
-                              className="flex items-center space-x-1 px-2 py-1 pl-0"
-                            >
-                              <Trash size={12} className="text-red-500" />
-                              <span className="text-xs font-medium text-red-500">
-                                Remove
-                              </span>
-                            </button>
-                          </div>
-                        </div>
                       </div>
                     );
                   })
                 ) : (
-                  <h1>Not Found</h1>
+                  <h1 className="text-center font-bold">Your Cart is Empty</h1>
                 )}
               </ul>
             </section>
-            <section
-              aria-labelledby="summary-heading"
-              className="mt-16 rounded-md bg-white lg:col-span-4 lg:mt-0 lg:p-0"
-            >
-              <h2
-                id="summary-heading"
-                className="border-b border-gray-200 px-4 py-3 text-lg font-medium text-gray-900 sm:p-4"
+            {cartItems.length > 0 && (
+              <section
+                aria-labelledby="summary-heading"
+                className="mt-16 rounded-md bg-white lg:col-span-4 lg:mt-0 lg:p-0"
               >
-                Price Details
-              </h2>
-              <div>
-                <dl className="space-y-1 px-2 py-4">
-                  <div className="flex items-center justify-between">
-                    <dt className="text-sm text-gray-800">
-                      Price ({cartItemTotal} item)
-                    </dt>
-                    <dd className="text-sm font-medium text-gray-900">
-                      ₹ {cartTotal}
-                    </dd>
-                  </div>
-                  <div className="flex items-center justify-between py-4">
-                    <dt className="flex text-sm text-gray-800">
-                      <span>Delivery Charges</span>
-                    </dt>
-                    <dd className="text-sm font-medium text-green-700">Free</dd>
-                  </div>
-                  <div className="flex items-center justify-between border-y border-dashed py-4 ">
-                    <dt className="text-base font-medium text-gray-900">
-                      Total Amount
-                    </dt>
-                    <dd className="text-base font-medium text-gray-900">
-                      ₹ {cartTotal}
-                    </dd>
-                  </div>
-                </dl>
-                <div className="px-2 pb-4 font-medium text-green-700">
-                  <div className="flex gap-4 mb-6">
-                    {user ? (
-                      <>
-                        <BuyNowModal
-                          addressInfo={addressInfo}
-                          setAddressInfo={setAddressInfo}
-                          buyNowFunction={buyNowFunction}
-                        />
-                        <button
-                          onClick={() => {console.log('Button clicked'); handlePayNow();}}
-                          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                        >
-                          Handle Pay Now
-                        </button>
-                      </>
-                    ) : (
-                      <Navigate to={"/login"} />
-                    )}
+                <h2
+                  id="summary-heading"
+                  className="border-b border-gray-200 px-4 py-3 text-lg font-medium text-gray-900 sm:p-4"
+                >
+                  Price Details
+                </h2>
+                <div>
+                  <dl className="space-y-1 px-2 py-4">
+                    <div className="flex items-center justify-between">
+                      <dt className="text-sm text-gray-800">
+                        Price ({cartItemTotal} item)
+                      </dt>
+                      <dd className="text-sm font-medium text-gray-900">
+                        ₹ {cartTotal}
+                      </dd>
+                    </div>
+                    <div className="flex items-center justify-between py-4">
+                      <dt className="flex text-sm text-gray-800">
+                        <span>Delivery Charges</span>
+                      </dt>
+                      <dd className="text-sm font-medium text-green-700">
+                        Free
+                      </dd>
+                    </div>
+                    <div className="flex items-center justify-between border-y border-dashed py-4 ">
+                      <dt className="text-base font-medium text-gray-900">
+                        Total Amount
+                      </dt>
+                      <dd className="text-base font-medium text-gray-900">
+                        ₹ {cartTotal}
+                      </dd>
+                    </div>
+                  </dl>
+                  <div className="px-2 pb-4 font-medium text-green-700">
+                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                      {user ? (
+                        <>
+                          <BuyNowModal
+                            addressInfo={addressInfo}
+                            setAddressInfo={setAddressInfo}
+                            buyNowFunction={buyNowFunction}
+                          />
+                          <button
+                            onClick={handlePayNow}
+                            className="w-full px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                          >
+                            Pay Now
+                          </button>
+                        </>
+                      ) : (
+                        <Navigate to={"/login"} />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </section>
+              </section>
+            )}
           </form>
         </div>
       </div>
